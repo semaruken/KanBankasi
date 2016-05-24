@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+
+</h:head>
+<h:body>
+	<h:form id="frmMenu">
+		<p:megaMenu orientation="horizontal">
+
+			<p:submenu label="Kullanıcı" icon="ui-icon-check">
+				<p:column>
+					<p:submenu>
+						<p:menuitem value="Kullanıcı İşlemleri"
+							action="kullanici.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+			<p:submenu label="Kişi" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="Kişi İşlemleri">
+						<p:menuitem value="Kişi Ekle"
+							action="kisi.xhtml?faces-redirect=true" />
+						<p:menuitem value="Kişi Listele"
+							action="kisiliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="Hastane" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="Hastane İşlemleri">
+						<p:menuitem value="Hastane Ekle"
+							action="hastane.xhtml?faces-redirect=true" />
+						<p:menuitem value="Hastane Listele"
+							action="hastaneliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="İstem" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="İstem İşlemleri">
+						<p:menuitem value="İstem Ekle"
+							action="istem.xhtml?faces-redirect=true" />
+						<p:menuitem value="İstem Listele"
+							action="istemliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+		</p:megaMenu>
+	</h:form>
+</h:body>
+</html>

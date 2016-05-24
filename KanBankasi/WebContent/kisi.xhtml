@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+	<title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+	<body style="background-color: grey" />
+	<center>
+		<h:form id="frmMenu">
+			<p:megaMenu orientation="horizontal">
+
+				<p:submenu label="Kullanıcı" icon="ui-icon-check">
+					<p:column>
+						<p:submenu>
+							<p:menuitem value="Kullanıcı İşlemleri"
+								action="kullanici.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+				<p:submenu label="Kişi" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="Kişi İşlemleri">
+							<p:menuitem value="Kişi Ekle"
+								action="kisi.xhtml?faces-redirect=true" />
+							<p:menuitem value="Kişi Listele"
+								action="kisiliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="Hastane" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="Hastane İşlemleri">
+							<p:menuitem value="Hastane Ekle"
+								action="hastane.xhtml?faces-redirect=true" />
+							<p:menuitem value="Hastane Listele"
+								action="hastaneliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="İstem" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="İstem İşlemleri">
+							<p:menuitem value="İstem Ekle"
+								action="istem.xhtml?faces-redirect=true" />
+							<p:menuitem value="İstem Listele"
+								action="istemliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+			</p:megaMenu>
+		</h:form>
+		<h:form>
+
+
+			<h1>KİŞİ EKLEME EKRANI</h1>
+			<p:growl id="growl" sticky="true" showDetail="true" />
+			<p:wizard flowListener="#{kisiController.onFlowProcess}">
+				<p:tab id="kisi" title="KİŞİ">
+					<p:panel header="KİŞİ BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="ADI: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_adi}"
+								required="true" label="Adı" />
+							<h:outputText value="SOYADI: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_soyadi}"
+								required="true" label="Soyadı" />
+							<h:outputText value="TC NO: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_tc_no}"
+								required="true" label="Tc" />
+							<h:outputText value="YAŞ: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_yasi}"
+								required="true" label="Yaş" />
+
+							<p:outputLabel for="dogum_tarihi" value="DOĞUM TARİHİ:" />
+							<p:calendar id="dogum_tarihi"
+								value="#{kisiController.kisi.kisi_dogumtarihi}"
+								pattern="dd-MM-yyyy" />
+
+							<h:outputText value="Cinsiyet : " />
+							<p:selectOneMenu id="cinsiyet"
+								value="#{kisiController.kisi.kisi_cinsiyet}" effect="fold"
+								editable="true">
+								<f:selectItem itemLabel="Kadın" itemValue="" />
+								<f:selectItem itemLabel="Erkek" itemValue="" />
+							</p:selectOneMenu>
+
+							<h:outputText value="KAN GRUBU: " />
+							<p:selectOneMenu id="kangrubu"
+								value="#{kisiController.kisi.kisi_kangrubu}" effect="fold"
+								editable="true">
+								<f:selectItem itemLabel="0Rh+" itemValue="" />
+								<f:selectItem itemLabel="0Rh-" itemValue="" />
+								<f:selectItem itemLabel="ARh+" itemValue="" />
+								<f:selectItem itemLabel="ARh-" itemValue="" />
+								<f:selectItem itemLabel="BRh+" itemValue="" />
+								<f:selectItem itemLabel="BRh-" itemValue="" />
+								<f:selectItem itemLabel="ABRh+" itemValue="" />
+								<f:selectItem itemLabel="ABRh-" itemValue="" />
+							</p:selectOneMenu>
+
+
+
+
+							<h:outputText value="Skip to last: " />
+							<h:selectBooleanCheckbox value="#{kisiController.skip}" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="address" title="Address">
+					<p:panel header="ADRES BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="İLİ: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_ili}"
+								required="true" label="İl" />
+
+							<h:outputText value="İLÇESİ: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_ilcesi}"
+								required="true" label="İlcesi" />
+
+
+							<h:outputText value="ADRES: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_adresi}"
+								required="true" label="Adres" />
+
+							<h:outputText value="Skip to last: " />
+							<h:selectBooleanCheckbox value="#{kisiController.skip}" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="contact" title="Contact">
+					<p:panel header="İLETİŞİM BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+
+							<h:outputText value="E-MAİL ADRESİ: " />
+							<p:inputText value="#{kisiController.kisi.kisi_email_adresi}"
+								required="true" label="Email" />
+							<h:outputText value="TELEFON NUMARASI: *" />
+							<p:inputText value="#{kisiController.kisi.kisi_gsmno}"
+								required="true" label="TELEFON" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="confirm" title="Confirmation">
+					<p:panel header="Confirmation">
+						<h:panelGrid id="confirmation" columns="3"
+							columnClasses="grid,grid,grid">
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="ADI: " />
+								<h:outputText value="#{kisiController.kisi.kisi_adi}"
+									styleClass="outputLabel" />
+								<h:outputText value="SOYADI: " />
+								<h:outputText value="#{kisiController.kisi.kisi_soyadi}"
+									styleClass="outputLabel" />
+								<h:outputText value="TC NO: " />
+								<h:outputText value="#{kisiController.kisi.kisi_tc_no}"
+									styleClass="outputLabel" />
+								<h:outputText value="YAŞ: " />
+								<h:outputText value="#{kisiController.kisi.kisi_yasi}"
+									styleClass="outputLabel" />
+								<h:outputText value="DOĞUM TARİHİ: " />
+								<h:outputText value="#{kisiController.kisi.kisi_dogumtarihi}"
+									styleClass="outputLabel" />
+								<h:outputText value="CİNSİYET: " />
+								<h:outputText value="#{kisiController.kisi.kisi_cinsiyet}"
+									styleClass="outputLabel" />
+								<h:outputText value="KAN GRUBU: " />
+								<h:outputText value="#{kisiController.kisi.kisi_kangrubu}"
+									styleClass="outputLabel" />
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="İLİ: " />
+								<h:outputText value="#{kisiController.kisi.kisi_ili}"
+									styleClass="outputLabel" />
+								<h:outputText value="İLÇESİ: " />
+								<h:outputText value="#{kisiController.kisi.kisi_ilcesi}"
+									styleClass="outputLabel" />
+								<h:outputText value="ADRES: " />
+								<h:outputText value="#{kisiController.kisi.kisi_adresi}"
+									styleClass="outputLabel" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="E-MAİL ADRESİ: " />
+								<h:outputText value="#{kisiController.kisi.kisi_email_adresi}"
+									styleClass="outputLabel" />
+
+								<h:outputText value="TELEFON ADRESİ: " />
+								<h:outputText value="#{kisiController.kisi.kisi_gsmno}"
+									styleClass="outputLabel" />
+
+								<h:outputText />
+								<h:outputText />
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<p:commandButton value="KAYDET"
+							actionListener="#{kisiController.kaydet}" update="growl"
+							process="@this" />
+						<p:commandButton value="LİSTELE" action="kisiliste.xhtml"></p:commandButton>
+					</p:panel>
+				</p:tab>
+			</p:wizard>
+
+		</h:form>
+	</center>
+</h:body>
+</html>

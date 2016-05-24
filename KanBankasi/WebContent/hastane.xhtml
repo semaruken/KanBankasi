@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+	<title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+	<body style="background-color: grey" />
+	<center>
+		<h:form id="frmMenu">
+			<p:megaMenu orientation="horizontal">
+
+				<p:submenu label="Kullanıcı" icon="ui-icon-check">
+					<p:column>
+						<p:submenu>
+							<p:menuitem value="Kullanıcı İşlemleri"
+								action="kullanici.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+				<p:submenu label="Kişi" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="Kişi İşlemleri">
+							<p:menuitem value="Kişi Ekle"
+								action="kisi.xhtml?faces-redirect=true" />
+							<p:menuitem value="Kişi Listele"
+								action="kisiliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="Hastane" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="Hastane İşlemleri">
+							<p:menuitem value="Hastane Ekle"
+								action="hastane.xhtml?faces-redirect=true" />
+							<p:menuitem value="Hastane Listele"
+								action="hastaneliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="İstem" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="İstem İşlemleri">
+							<p:menuitem value="İstem Ekle"
+								action="istem.xhtml?faces-redirect=true" />
+							<p:menuitem value="İstem Listele"
+								action="istemliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+			</p:megaMenu>
+		</h:form>
+		<h:form>
+
+			<h1>HASTANE EKLEME EKRANI</h1>
+			<p:growl id="growl" sticky="true" showDetail="true" />
+			<p:wizard flowListener="#{hastaneController.onFlowProcess}">
+				<p:tab id="hastane" title="HASTANE">
+					<p:panel header="HASTANE BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="ADI: *" />
+							<p:inputText value="#{hastaneController.hastane.hastane_adi}"
+								required="true" label="ADI" />
+
+							<h:outputText value="Skip to last: " />
+							<h:selectBooleanCheckbox value="#{hastaneController.skip}" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="address" title="Address">
+					<p:panel header="ADRES BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="İLİ: *" />
+							<p:inputText value="#{hastaneController.hastane.hastane_ili}"
+								required="true" label="İl" />
+
+							<h:outputText value="İLÇESİ: *" />
+							<p:inputText value="#{hastaneController.hastane.hastane_ilcesi}"
+								required="true" label="İlcesi" />
+
+							<h:outputText value="ADRES: *" />
+							<p:inputText
+								value="#{hastaneController.hastane.hastane_iletisimadresi}"
+								required="true" label="Adres" />
+
+							<h:outputText value="Skip to last: " />
+							<h:selectBooleanCheckbox value="#{hastaneController.skip}" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="contact" title="Contact">
+					<p:panel header="İLETİŞİM BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+
+							<h:outputText value="TELEFON NUMARASI: *" />
+							<p:inputText value="#{hastaneController.hastane.hastane_tlfnno}"
+								required="true" label="TELEFON" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="confirm" title="Confirmation">
+					<p:panel header="Confirmation">
+						<h:panelGrid id="confirmation" columns="3"
+							columnClasses="grid,grid,grid">
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="ADI: " />
+								<h:outputText value="#{hastaneController.hastane.hastane_adi}"
+									styleClass="outputLabel" />
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="İLİ: " />
+								<h:outputText value="#{hastaneController.hastane.hastane_ili}"
+									styleClass="outputLabel" />
+								<h:outputText value="İLÇESİ: " />
+								<h:outputText
+									value="#{hastaneController.hastane.hastane_ilcesi}"
+									styleClass="outputLabel" />
+								<h:outputText value="ADRES: " />
+								<h:outputText
+									value="#{hastaneController.hastane.hastane_iletisimadresi}"
+									styleClass="outputLabel" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="TELEFON ADRESİ: " />
+								<h:outputText
+									value="#{hastaneController.hastane.hastane_tlfnno}"
+									styleClass="outputLabel" />
+
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<p:commandButton value="KAYDET"
+							actionListener="#{hastaneController.kaydet}" update="growl"
+							process="@this" />
+						<p:commandButton value="LİSTELE" action="hastaneliste.xhtml"></p:commandButton>
+					</p:panel>
+
+				</p:tab>
+
+			</p:wizard>
+
+		</h:form>
+	</center>
+</h:body>
+</html>

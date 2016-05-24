@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@127.0.0.1:1522:orcl1</property>
+		<property name="hibernate.connection.username">C##SEMA</property>
+		<property name="hibernate.connection.password">Srk73622</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.show_sql">true</property>
+
+
+		<mapping class="com.kanbankasi.entity.Kisi" />
+		<mapping class="com.kanbankasi.entity.Kullanici" />
+		<mapping class="com.kanbankasi.entity.Hastane" />
+		<mapping class="com.kanbankasi.entity.Istem" />
+		<mapping class="com.kanbankasi.entity.Kullanici_Tipi" />
+
+
+	</session-factory>
+</hibernate-configuration>

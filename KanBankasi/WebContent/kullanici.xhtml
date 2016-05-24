@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Kullanıcı Girişi</title>
+</h:head>
+<h:body>
+	<h:form id="frmMenu">
+		<p:megaMenu orientation="horizontal">
+
+			<p:submenu label="Kullanıcı" icon="ui-icon-check">
+				<p:column>
+					<p:submenu>
+						<p:menuitem value="Kullanıcı İşlemleri"
+							action="kullanici.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+			<p:submenu label="Kişi" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="Kişi İşlemleri">
+						<p:menuitem value="Kişi Ekle"
+							action="kisi.xhtml?faces-redirect=true" />
+						<p:menuitem value="Kişi Listele"
+							action="kisiliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="Hastane" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="Hastane İşlemleri">
+						<p:menuitem value="Hastane Ekle"
+							action="hastane.xhtml?faces-redirect=true" />
+						<p:menuitem value="Hastane Listele"
+							action="hastaneliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="İstem" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="İstem İşlemleri">
+						<p:menuitem value="İstem Ekle"
+							action="istem.xhtml?faces-redirect=true" />
+						<p:menuitem value="İstem Listele"
+							action="istemliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+		</p:megaMenu>
+	</h:form>
+	<h:form id="frmKullanici">
+		<p:growl id="message" autoUpdate="true" showDetail="true" life="5000"
+			showSummary="true"></p:growl>
+
+		<p:dataTable id="tblKullanici" var="item"
+			value="#{kullaniciController.kullaniciList}" rows="10"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15">
+			<f:facet name="header">
+					Kullanıcı Listesi
+				</f:facet>
+			<p:column headerText="Id">
+				<h:outputText value="#{item.id}" />
+			</p:column>
+
+			<p:column headerText="Kullanıcı Adı">
+				<h:outputText value="#{item.username}" />
+			</p:column>
+
+			<p:column headerText="Şifre">
+				<h:outputLabel value="*******" />
+			</p:column>
+			<p:column headerText="İşlemler">
+				<p:commandButton value="Sil"
+					update=":frmKullanici:tblKullanici, :frmKullanici:message"
+					actionListener="#{kullaniciController.sil(item.id)}"
+					icon="ui-icon-trash"></p:commandButton>
+				<p:commandButton value="Güncelle"
+					update=":frmKullanici:dlgKullanici, :frmKullanici:message"
+					actionListener="#{kullaniciController.duzenle(item.id)}"
+					oncomplete="PF('dlgKullanici').show();" icon="ui-icon-pencil"></p:commandButton>
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Yeni" action="#{kullaniciController.yeni}"
+					update=":frmKullanici:dlgKullanici,:frmKullanici:message "
+					oncomplete="PF('dlgKullanici').show();"></p:commandButton>
+			</f:facet>
+		</p:dataTable>
+
+		<p:dialog id="dlgKullanici" widgetVar="dlgKullanici" closable="true"
+			header="Kullanıcı Kayıt" modal="true">
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Kullanıcı Adı :"></p:outputLabel>
+				<p:inputText value="#{kullaniciController.kullanici.username}"></p:inputText>
+
+				<p:outputLabel value="Şifre :"></p:outputLabel>
+				<p:password value="#{kullaniciController.kullanici.password}"></p:password>
+
+				<f:facet name="footer">
+					<p:commandButton value="Kaydet" process="@form"
+						action="#{kullaniciController.kaydet}"
+						update="frmKullanici:tblKullanici,:frmKullanici:message"
+						oncomplete="PF('dlgKullanici').hide();"></p:commandButton>
+				</f:facet>
+			</p:panelGrid>
+		</p:dialog>
+
+	</h:form>
+</h:body>
+</html>

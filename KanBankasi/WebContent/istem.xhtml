@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+	<title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+	<body style="background-color: grey" />
+	<center>
+
+		<h:form id="frmMenu">
+			<p:megaMenu orientation="horizontal">
+
+				<p:submenu label="Kullanıcı" icon="ui-icon-check">
+					<p:column>
+						<p:submenu>
+							<p:menuitem value="Kullanıcı İşlemleri"
+								action="kullanici.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+				<p:submenu label="Kişi" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="Kişi İşlemleri">
+							<p:menuitem value="Kişi Ekle"
+								action="kisi.xhtml?faces-redirect=true" />
+							<p:menuitem value="Kişi Listele"
+								action="kisiliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="Hastane" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="Hastane İşlemleri">
+							<p:menuitem value="Hastane Ekle"
+								action="hastane.xhtml?faces-redirect=true" />
+							<p:menuitem value="Hastane Listele"
+								action="hastaneliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+				<p:submenu label="İstem" icon="ui-icon-check">
+					<p:column>
+						<p:submenu label="İstem İşlemleri">
+							<p:menuitem value="İstem Ekle"
+								action="istem.xhtml?faces-redirect=true" />
+							<p:menuitem value="İstem Listele"
+								action="istemliste.xhtml?faces-redirect=true" />
+						</p:submenu>
+					</p:column>
+				</p:submenu>
+
+			</p:megaMenu>
+		</h:form>
+
+		<h:form>
+
+			<h1>İSTEM EKRANI</h1>
+			<p:growl id="growl" sticky="true" showDetail="true" />
+			<p:wizard flowListener="#{istemController.onFlowProcess}">
+				<p:tab id="istem" title="İSTEM">
+					<p:panel header="İSTEM BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="İSTEM NO: *" />
+							<p:inputText value="#{istemController.istem.istem_no}"
+								required="true" label="NO" />
+							<h:outputText value="İSTEM ADEDİ: *" />
+							<p:inputText value="#{istemController.istem.istem_adedi}"
+								required="true" label="ADEDİ" />
+							<p:outputLabel for="istem_tarihi" value="İSTEM TARİHİ:" />
+							<p:calendar id="istem_tarihi"
+								value="#{istemController.istem.istem_tarihi}" required="true"
+								label="İstem Tarihi" pattern="dd-MM-yyyy" />
+							<h:outputText value="KAN GRUBU: *" />
+							<p:selectOneMenu id="kangrubu"
+								value="#{istemController.istem.kan_grubu}" effect="fold"
+								editable="true">
+								<f:selectItem itemLabel="0Rh+" itemValue="" />
+								<f:selectItem itemLabel="0Rh-" itemValue="" />
+								<f:selectItem itemLabel="ARh+" itemValue="" />
+								<f:selectItem itemLabel="ARh-" itemValue="" />
+								<f:selectItem itemLabel="BRh+" itemValue="" />
+								<f:selectItem itemLabel="BRh-" itemValue="" />
+								<f:selectItem itemLabel="ABRh+" itemValue="" />
+								<f:selectItem itemLabel="ABRh-" itemValue="" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Skip to last: " />
+							<h:selectBooleanCheckbox value="#{istemController.skip}" />
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="contact" title="Contact">
+					<p:panel header="İLETİŞİM BİLGİLERİ">
+						<p:messages />
+						<h:panelGrid columns="2" columnClasses="label, value">
+
+							<h:outputText value="İSTEM YAPAN HASTANE: " />
+							<p:autoComplete id="hastaneAcomp"
+								value="#{istemController.istem.hastane}"
+								completeMethod="#{istemController.hastaneAcomp}" var="hastane"
+								itemLabel="#{hastane.hastane_adi}" itemValue="#{hastane}"
+								converter="#{hastaneConverter}" forceSelection="true" />
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="confirm" title="Confirmation">
+					<p:panel header="Confirmation">
+						<h:panelGrid id="confirmation" columns="3"
+							columnClasses="grid,grid,grid">
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="İstem No: " />
+								<h:outputText value="#{istemController.istem.istem_no}"
+									styleClass="outputLabel" />
+								<h:outputText value="Adedi: " />
+								<h:outputText value="#{istemController.istem.istem_adedi}"
+									styleClass="outputLabel" />
+								<h:outputText value="Tarihi: " />
+								<h:outputText value="#{istemController.istem.istem_tarihi}"
+									styleClass="outputLabel" />
+								<h:outputText value="Kan Grubu: " />
+								<h:outputText value="#{istemController.istem.kan_grubu}"
+									styleClass="outputLabel" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="İstem Yapan Hastane: " />
+								<h:outputText value="#{istemController.istem.hastane}"
+									styleClass="outputLabel" />
+
+							</h:panelGrid>
+						</h:panelGrid>
+
+						<p:commandButton value="KAYDET"
+							actionListener="#{istemController.kaydet}" update="growl"
+							process="@this" />
+						<p:commandButton value="LİSTELE" action="istemliste.xhtml"></p:commandButton>
+					</p:panel>
+
+				</p:tab>
+			</p:wizard>
+		</h:form>
+	</center>
+</h:body>
+</html>
+

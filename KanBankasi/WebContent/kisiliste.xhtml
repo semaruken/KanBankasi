@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+	<title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+	<body style="background-color: grey" />
+
+	<h:form id="frmMenu">
+		<p:megaMenu orientation="horizontal">
+
+			<p:submenu label="Kullanıcı" icon="ui-icon-check">
+				<p:column>
+					<p:submenu>
+						<p:menuitem value="Kullanıcı İşlemleri"
+							action="kullanici.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+			<p:submenu label="Kişi" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="Kişi İşlemleri">
+						<p:menuitem value="Kişi Ekle"
+							action="kisi.xhtml?faces-redirect=true" />
+						<p:menuitem value="Kişi Listele"
+							action="kisiliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="Hastane" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="Hastane İşlemleri">
+						<p:menuitem value="Hastane Ekle"
+							action="hastane.xhtml?faces-redirect=true" />
+						<p:menuitem value="Hastane Listele"
+							action="hastaneliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="İstem" icon="ui-icon-check">
+				<p:column>
+					<p:submenu label="İstem İşlemleri">
+						<p:menuitem value="İstem Ekle"
+							action="istem.xhtml?faces-redirect=true" />
+						<p:menuitem value="İstem Listele"
+							action="istemliste.xhtml?faces-redirect=true" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+		</p:megaMenu>
+	</h:form>
+
+	<h:form id="kisiForm">
+		<p:growl id="message" autoUpdate="true" showDetail="true" life="5000"
+			showSummary="true"></p:growl>
+
+		<p:dataTable var="kisi" value="#{kisiController.kisiList}" rows="10"
+			widgetVar="ListTable" emptyMessage="KAYIT BULUNAMADI!" id="tblKisi"
+			filteredValue="#{kisiController.filteredList}" paginator="true"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15">
+			<f:facet name="header">KİŞİ LİSTESİ
+				
+				<p:outputPanel>
+					<h:outputText value="Tüm tabloda arayın: " />
+					<p:inputText id="globalFilter" onkeyup="PF('ListTable').filter()"
+						style="width:150px" placeholder=".." />
+				</p:outputPanel>
+			</f:facet>
+			<p:column>
+				<h:outputText value="#{kisi.id}" />
+			</p:column>
+
+			<p:column headerText="Adı" filterBy="#{kisi.kisi_adi}">
+				<h:outputText value="#{kisi.kisi_adi}" />
+			</p:column>
+			<p:column headerText="Soyadı" filterBy="#{kisi.kisi_soyadi}">
+				<h:outputText value="#{kisi.kisi_soyadi}" />
+			</p:column>
+			<p:column headerText="TC" filterBy="#{kisi.kisi_tc_no}">
+				<h:outputText value="#{kisi.kisi_tc_no}" />
+			</p:column>
+			<p:column headerText="Yaş" filterBy="#{kisi.kisi_yasi}">
+				<h:outputText value="#{kisi.kisi_yasi}" />
+			</p:column>
+			<p:column headerText="DTarihi" filterBy="#{kisi.kisi_dogumtarihi}">
+				<h:outputText value="#{kisi.kisi_dogumtarihi}" />
+			</p:column>
+			<p:column headerText="Cinsiyet" filterBy="#{kisi.kisi_cinsiyet}">
+				<h:outputText value="#{kisi.kisi_cinsiyet}" />
+			</p:column>
+			<p:column headerText="KanG" filterBy="#{kisi.kisi_kangrubu}">
+				<h:outputText value="#{kisi.kisi_kangrubu}" />
+			</p:column>
+			<p:column headerText="İli" filterBy="#{kisi.kisi_ili}">
+				<h:outputText value="#{kisi.kisi_ili}" />
+			</p:column>
+			<p:column headerText="İlçesi" filterBy="#{kisi.kisi_ilçesi}">
+				<h:outputText value="#{kisi.kisi_ilcesi}" />
+			</p:column>
+			<p:column headerText="Adres" filterBy="#{kisi.kisi_adresi}">
+				<h:outputText value="#{kisi.kisi_adresi}" />
+			</p:column>
+			<p:column headerText="Email" filterBy="#{kisi.kisi_email_adresi}">
+				<h:outputText value="#{kisi.kisi_email_adresi}" />
+			</p:column>
+			<p:column headerText="Telefon" filterBy="#{kisi.kisi_gsmno}">
+				<h:outputText value="#{kisi.kisi_gsmno}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">SİL</f:facet>
+				<p:commandButton value="DELETE" update=":kisiForm" ajax="false"
+					actionListener="#{kisiController.sil(kisi.id)}"
+					icon="ui-icon-trash"></p:commandButton>
+			</p:column>
+			<p:column>
+				<f:facet name="header">GÜNCELLE</f:facet>
+				<p:commandButton value="Güncelle"
+					update=":kisiForm:dlgKisi, :kisiForm:message"
+					actionListener="#{kisiController.duzenle(kisi.id)}"
+					oncomplete="PF('dlgKisi').show();" icon="ui-icon-pencil"></p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog id="dlgKisi" widgetVar="dlgKisi" closable="true"
+			header="Kişi Kayıt" modal="true">
+			<p:panelGrid columns="2">
+				<p:outputLabel value=" Adı :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_adi}"></p:inputText>
+
+				<p:outputLabel value="Soyadı :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_soyadi}"></p:inputText>
+
+				<p:outputLabel value="TC :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_tc_no}"></p:inputText>
+
+				<p:outputLabel value="Yaş :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_yasi}"></p:inputText>
+
+				<p:outputLabel for="dogumtarihi" value="Doğum tarihi :"></p:outputLabel>
+				<p:calendar id="dogumtarihi"
+					value="#{kisiController.kisi.kisi_dogumtarihi}" 
+					pattern="dd-MM-yyyy" />
+
+				<p:outputLabel value="Kan Grubu :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_kangrubu}"></p:inputText>
+
+				<p:outputLabel value="Cinsiyet :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_cinsiyet}"></p:inputText>
+
+				<p:outputLabel value="İli :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_ili}"></p:inputText>
+
+				<p:outputLabel value="İlçesi :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_ilcesi}"></p:inputText>
+
+				<p:outputLabel value="Adresi :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_adresi}"></p:inputText>
+
+				<p:outputLabel value="Email :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_email_adresi}"></p:inputText>
+
+				<p:outputLabel value="Telefon :"></p:outputLabel>
+				<p:inputText value="#{kisiController.kisi.kisi_gsmno}"></p:inputText>
+
+
+				<f:facet name="footer">
+					<p:commandButton value="Güncelle" process="@form"
+						action="#{kisiController.kaydet}"
+						update="kisiForm:tblKisi,:kisiForm:message"
+						oncomplete="PF('dlgKisi').hide();"></p:commandButton>
+				</f:facet>
+			</p:panelGrid>
+		</p:dialog>
+
+	</h:form>
+
+</h:body>
+</html>
